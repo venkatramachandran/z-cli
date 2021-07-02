@@ -24,6 +24,18 @@ describe('Ticket Service', () => {
       external_id: '2a',
     });
   });
+  it('should match on provided key and empty value', () => {
+    const input: QueryParam<Ticket> = {
+      key: 'assignee_id',
+      value: undefined
+    };
+    const results = os.search(input);
+    expect(results).toHaveLength(1);
+    expect(results[0]).toMatchObject({
+      _id: '4',
+      external_id: '4a',
+    });
+  });
   it('should match on provided key and value pair for multiple rows', () => {
     const input: QueryParam<Ticket> = {
       key: 'external_id',

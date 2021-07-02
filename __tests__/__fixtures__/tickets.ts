@@ -66,7 +66,7 @@ const data: Ticket[] = [
     priority: Priority.Low,
     status: Status.Open,
     submitter_id: 1,
-    assignee_id: 2,
+    assignee_id: undefined,
     organization_id: 210,
     tags: [],
     has_incidents: false,

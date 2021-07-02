@@ -68,4 +68,12 @@ describe('User Service', () => {
       external_id: '2a',
     });
   });
+  it('should match on provided key and empty value', () => {
+    const input: QueryParam<User> = {
+      key: 'timezone',
+      value: undefined
+    };
+    const results = os.search(input);
+    expect(results).toHaveLength(4);
+  });
 });
