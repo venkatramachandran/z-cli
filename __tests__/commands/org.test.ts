@@ -1,11 +1,21 @@
 import 'reflect-metadata';
 import '../__fixtures__/di';
 import yargs from 'yargs';
-import organization from '../../src/commands/org';
+import cmd from '../../src/commands/command';
+import { container } from 'tsyringe';
+import OrganizationHandler from '../../src/handlers/OrgHandler';
+import CliInput from '../../src/models/CliInput';
+import { OrganizationFields } from '../../src/models/Organization';
 
 describe('User Command', () => {
+  let organization: any;
   beforeEach(() => {
     console.log = jest.fn().mockImplementation(() => {});
+    organization = cmd({
+      command: 'organization <operation>', description: 'Organization Search Command', choices: OrganizationFields, handler: (args: CliInput) => {
+        container.resolve(OrganizationHandler).handler(args);
+      }
+    });
   });
   afterEach(jest.restoreAllMocks);
   it('parses the command properly', () => {

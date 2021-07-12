@@ -1,11 +1,21 @@
 import 'reflect-metadata';
 import '../__fixtures__/di';
 import yargs from 'yargs';
-import ticket from '../../src/commands/ticket';
+import cmd from '../../src/commands/command';
+import { container } from 'tsyringe';
+import TicketHandler from '../../src/handlers/TicketHandler';
+import CliInput from '../../src/models/CliInput';
+import { TicketFields } from '../../src/models/Ticket';
 
 describe('Ticket Command', () => {
+  let ticket: any;
   beforeEach(() => {
     console.log = jest.fn().mockImplementation(() => {});
+    ticket = cmd({
+      command: 'ticket <operation>', description: 'Ticket Search Command', choices: TicketFields, handler: (args: CliInput) => {
+        container.resolve(TicketHandler).handler(args);
+      }
+    });
   });
   afterEach(jest.restoreAllMocks);
   it('parses the command properly', () => {

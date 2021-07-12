@@ -1,11 +1,21 @@
 import 'reflect-metadata';
 import '../__fixtures__/di';
 import yargs from 'yargs';
-import user from '../../src/commands/user';
+import cmd from '../../src/commands/command';
+import { container } from 'tsyringe';
+import UserHandler from '../../src/handlers/UserHandler';
+import CliInput from '../../src/models/CliInput';
+import { UserFields } from '../../src/models/User';
 
 describe('User Command', () => {
+  let user: any;
   beforeEach(() => {
     console.log = jest.fn().mockImplementation(() => {});
+    user = cmd({
+      command: 'user <operation>', description: 'User Search Command', choices: UserFields, handler: (args: CliInput) => {
+        container.resolve(UserHandler).handler(args);
+      }
+    });
   });
   afterEach(jest.restoreAllMocks);
   it('parses the command properly', () => {
